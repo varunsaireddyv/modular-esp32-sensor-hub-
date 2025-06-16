@@ -1,0 +1,32 @@
+3V3              - Power
+GND              - Power
+EN               - Input (Enable)
+GPIO0            - Input (Boot mode / General IO)
+
+GPIO21 (SDA)     - I2C Input/Output
+GPIO22 (SCL)     - I2C Input/Output
+
+GPIO5  (SCK)     - SPI Output
+GPIO18 (MISO)    - SPI Input
+GPIO23 (MOSI)    - SPI Output
+GPIO19 (CS)      - SPI Input (usually)
+
+GPIO36           - Analog Input (ADC)
+GPIO39           - Analog Input (ADC)
+GPIO34           - Analog Input (ADC)
+GPIO35           - Analog Input (ADC)
+
+GPIO1  (TX0)     - UART Output
+GPIO3  (RX0)     - UART Input
+
+GPIO25           - Digital Input/Output
+GPIO26           - Digital Input/Output
+GPIO27           - Digital Input/Output
+GPIO32           - Digital Input/Output / ADC
+GPIO33           - Digital Input/Output / ADC
+
+GPIO2            - Digital Input/Output
+GPIO4            - Digital Input/Output
+GPIO16           - Digital Input/Output
+GPIO17           - Digital Input/Output
+
