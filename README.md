@@ -113,7 +113,8 @@ pins.h :
 You can plug in any new sensor to unused analog/digital/I2C ports. Here’s how to support it in firmware:
 
 
-Step 1 : Wiring 
+Step 1 : Wiring :
+
 -Connect the sensor to a free port (check Pin Mapping table)
 -Use correct GND/VCC/SIG (XH-3P)
 
