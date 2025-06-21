@@ -9,7 +9,7 @@ GPIO22 (SCL)     - I2C Input/Output
 GPIO5  (SCK)     - SPI Output
 GPIO18 (MISO)    - SPI Input
 GPIO23 (MOSI)    - SPI Output
-GPIO19 (CS)      - SPI Input (usually)
+GPIO19 (CS)      - SPI Input 
 
 GPIO36           - Analog Input (ADC)
 GPIO39           - Analog Input (ADC)
