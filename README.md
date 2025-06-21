@@ -88,37 +88,27 @@ Plug-and-play:Firmware pre installed and no user input required exept for conect
 
 ---
 
-## Firmware file structure
-
-The firmware is written in modular C++ using PlatformIO (ESP32-Arduino framework).
-All logic is grouped into clean, extensible sections:
-
-Folder Layout
-├──Firmware/
-│    ├── src/
-│        ├── main.cpp               → Entry point
-│        ├── sensormanger.cpp       → Sensor detection + data reading logic
-│        ├── sensormanger.h         → Header for sensor manager
-│        └── pins.h                 → All pin mappings (easy to edit)
-│    ├──Include/
-│    ├──lib/
-│    ├──platform.ini
-│
-
----
-
 ## Firmware flow
 
 1.main.cpp:
   -Calls SensorManager.begin() → initializes I2C, sets up pins
+  
   -Calls SensorManager.detectConnectedSensors() → auto-detects attached sensors
+  
   -Calls SensorManager.readAll() repeatedly inside loop() to read & print sensor data
+  
 2.sensormanger.cpp/.h
+
   -Defines bool flags for each supported sensor
+  
   -Each sensor has its own analogRead() or I2C detection logic
+  
   -readAll() only reads sensors that were marked as detected(bool=true)
+  
 3.pins.h
+
   -Central place to edit pin numbers (for future boards or remapping)
+  
   -Also includes notes on analog/digital/I2C mappings
 
 ---
@@ -127,33 +117,39 @@ Folder Layout
 
 You can plug in any new sensor to unused analog/digital/I2C ports. Here’s how to support it in firmware:
 
-1. Wiring
-   -Connect the sensor to a free port (check Pin Mapping table)
-   -Use correct GND/VCC/SIG (XH-3P)
+1. Wiring:
+   
+  -Connect the sensor to a free port (check Pin Mapping table)
+   
+  -Use correct GND/VCC/SIG (XH-3P)
 
-2. Modify sensormanger.h
+3. Modify sensormanger.h:
    
-    -Add a flag for presence detection
-      -extern bool NEW_SENSOR_present;
+  -Add a flag for presence detection:
+      
+    extern bool NEW_SENSOR_present;
    
-4. Modify pins.h
+4. Modify pins.h:
    
-    -define your sensor with its GIO pin
-      -#define NEW_SENSOR_PIN ##   //replace ## with GIO pin(can be found in sensor data sheet)
+  -define your sensor with its GIO pin:
+  
+    #define NEW_SENSOR_PIN ##   //replace ## with GIO pin(can be found in sensor data sheet)
     
 6. Modify sensormanger.cpp
 
-    -In detectConnectedSensors add
-      -if (analogRead(NEW_SENSOR_PIN) > 50) NEW_SENSOR_present = true;   //(for analog sensors)
-      -if (analogRead(NEW_SENSOR_PIN) > 50) NEW_SENSOR_present = true;   //(for digital sensors)
-      -Check sensor library for I2C (differs from sensor to sensor reffer sesnormanager.cpp for refrence)
+  -In detectConnectedSensors add:
+  
+    -if (analogRead(NEW_SENSOR_PIN) > 50) NEW_SENSOR_present = true;   //(for analog sensors)
+    -if (analogRead(NEW_SENSOR_PIN) > 50) NEW_SENSOR_present = true;   //(for digital sensors)
+    -Check sensor library for I2C (differs from sensor to sensor reffer sesnormanager.cpp for refrence)
    
-    -In readAll add
-      -if (NEW_SENSOR_present) {
-         int val = analogRead(NEW_SENSOR_PIN);   //(for analog)
-        }
-      -if (NEW_SENSOR_present) {
-         int val = digitalRead(NEW_SENSOR_PIN);   //(for analog)
+  -In readAll add:
+  
+    -if (NEW_SENSOR_present) {
+      int val = analogRead(NEW_SENSOR_PIN);   //(for analog)
+      }
+    -if (NEW_SENSOR_present) {
+      int val = digitalRead(NEW_SENSOR_PIN);   //(for analog)
         }
       -Check sensor library for I2C (differs from sensor to sensor reffer sesnormanager.cpp for refrence)
 
@@ -163,11 +159,13 @@ You can plug in any new sensor to unused analog/digital/I2C ports. Here’s how 
 
 To upload firmware to the ESP32 board:
 
-1. Install PlatformIO
-    -VSCode + PlatformIO extension
-    -Or via CLI: https://platformio.org/install/cli
+1. Install PlatformIO:
+
+   -VSCode + PlatformIO extension
+   -Or via CLI: https://platformio.org/install/cli
    
 3. Clone this repo:
+   
     -git clone https://github.com/varunsaireddyv/modular-esp32-sensor-hub-.git
     -cd modular-esp32-sensor-hub-
    
