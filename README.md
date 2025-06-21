@@ -189,10 +189,14 @@ To upload firmware to the ESP32 board:
 
 ---
 
+
 ## License
 
 This project is licensed under the MIT License. See `LICENSE` file for full terms.
 You may freely modify, distribute, or use this project in your own designs.
+
+## For hire !!
+reach out at : varunbillas@gmail.com
 
 
 
