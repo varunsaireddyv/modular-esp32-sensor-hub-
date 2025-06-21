@@ -120,7 +120,7 @@ Step 1 : Wiring :
 
 
 
-step 2 : Modify sensormanger.h :
+step 2 : Modify "sensormanger.h" :
    
   -Add a flag for presence detection:
       
@@ -128,7 +128,7 @@ step 2 : Modify sensormanger.h :
 
 
 
-step 3 : Modify pins.h :
+step 3 : Modify "pins.h" :
    
   -define your sensor with its GIO pin:
   
@@ -136,7 +136,7 @@ step 3 : Modify pins.h :
 
 
     
-step 4 : Modify sensormanger.cpp :
+step 4 : Modify "sensormanger.cpp" :
 
   -In detectConnectedSensors add:
   
