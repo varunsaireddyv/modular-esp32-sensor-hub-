@@ -90,19 +90,19 @@ Plug-and-play:Firmware pre installed and no user input required exept for conect
 
 ## Firmware flow
 
-1.main.cpp:
+1.main.cpp :
 -Calls SensorManager.begin() → initializes I2C, sets up pins
 -Calls SensorManager.detectConnectedSensors() → auto-detects attached sensors
 -Calls SensorManager.readAll() repeatedly inside loop() to read & print sensor data
 
   
-2.sensormanger.cpp/.h:
+2.sensormanger.cpp/.h :
 -Defines bool flags for each supported sensor
 -Each sensor has its own analogRead() or I2C detection logic
 -readAll() only reads sensors that were marked as detected(bool=true)
 
   
-3.pins.h:
+3.pins.h :
 -Central place to edit pin numbers (for future boards or remapping)
 -Also includes notes on analog/digital/I2C mappings
 
@@ -112,23 +112,26 @@ Plug-and-play:Firmware pre installed and no user input required exept for conect
 
 You can plug in any new sensor to unused analog/digital/I2C ports. Here’s how to support it in firmware:
 
-1. Wiring:
+1. Wiring :
 -Connect the sensor to a free port (check Pin Mapping table)
 -Use correct GND/VCC/SIG (XH-3P)
 
-2. Modify sensormanger.h:
+
+2. Modify sensormanger.h :
    
   -Add a flag for presence detection:
       
     extern bool NEW_SENSOR_present;
-   
-3. Modify pins.h:
+
+
+3. Modify pins.h :
    
   -define your sensor with its GIO pin:
   
     #define NEW_SENSOR_PIN ##   //replace ## with GIO pin(can be found in sensor data sheet)
+
     
-4. Modify sensormanger.cpp
+4. Modify sensormanger.cpp :
 
   -In detectConnectedSensors add:
   
