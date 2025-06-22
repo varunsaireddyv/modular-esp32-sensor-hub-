@@ -122,7 +122,7 @@ Step 1 : Wiring :
 
 step 2 : Modify "sensormanger.h" :
    
-  -Add a flag for presence detection:
+  -Add a flag for presence detection :
       
     extern bool NEW_SENSOR_present;
 
@@ -130,7 +130,7 @@ step 2 : Modify "sensormanger.h" :
 
 step 3 : Modify "pins.h" :
    
-  -define your sensor with its GIO pin:
+  -define your sensor with its GIO pin :
   
     #define NEW_SENSOR_PIN ##   //replace ## with GIO pin(can be found in sensor data sheet)
 
@@ -138,13 +138,13 @@ step 3 : Modify "pins.h" :
     
 step 4 : Modify "sensormanger.cpp" :
 
-  -In detectConnectedSensors add:
+  -In detectConnectedSensors add :
   
     -if (analogRead(NEW_SENSOR_PIN) > 50) NEW_SENSOR_present = true;   //(for analog sensors)
     -if (analogRead(NEW_SENSOR_PIN) > 50) NEW_SENSOR_present = true;   //(for digital sensors)
     -Check sensor library for I2C (differs from sensor to sensor reffer sesnormanager.cpp for refrence)
    
-  -In readAll add:
+  -In readAll add :
   
     -if (NEW_SENSOR_present) {
       int val = analogRead(NEW_SENSOR_PIN);   //(for analog)
@@ -154,6 +154,64 @@ step 4 : Modify "sensormanger.cpp" :
         }
       -Check sensor library for I2C (differs from sensor to sensor reffer sesnormanager.cpp for refrence)
 
+
+      
+step 5 : SD card logging 
+
+-5.1 : Update sdlogger.h : 
+
+  -In sdlogger.h, go to the writeRow() function declaration. Add your new sensor’s argument at the end:
+  
+    void writeRow(
+        String timestamp,
+        ...
+        String BH1750,
+        String NEW_SENSOR      //<-- Add this
+    ) ;
+
+5.2 : Update sdlogger.cpp :
+
+  -Update the writeRow() definition:
+  -Add the new parameter to the function like:
+  
+    void writeRow(
+        String timestamp,
+        ...
+        String BH1750,
+        String NEW_SENSOR       //<-- Add here too
+    ) {
+  -Add it to the file write block:
+  -Scroll to where values are written into the file. Append this:
+
+    file.print(NEW_SENSOR); file.println();    //<-- Just before file.close();
+  -Update the CSV header:
+  -Only needed once, in the same file (inside if (!SD.exists("/logs.csv"))):
+
+    file.println("Time stamp,MQ135-D,MQ135-A,DHT22,RAIN-A,RAIN-D,SOUND-A,SOUND-D,SOIL-A,SOIL-D,MPU6050,BMP180,BH1750,NEW_SENSOR");
+
+5.3 : Modify readAll() in SensorManager :
+  -If your sensor is optional/detectable:
+
+    String newSensorValue = "NA";
+    if (NEW_SENSOR_present) {
+      int val = analogRead(NEW_SENSOR_PIN);  // or digitalRead / I2C
+      newSensorValue = String(val);
+
+  -Then pass it to the logger:
+
+    SdLogger::writeRow(
+      timestamp,
+      mq135_d, mq135_a,
+      dht22,
+      rain_a, rain_d,
+      sound_a, sound_d,
+      soil_a, soil_d,
+      mpu6050,
+      bmp180,
+      bh1750,
+      newSensorValue       //<-- Final argument
+    );
+    }
 
 ---
 
